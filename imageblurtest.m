@@ -1,3 +1,4 @@
+
 inputImage = imread('cute_dog.jpg'); % Replace 'image.jpg' with your image file
 inputImage = im2double(inputImage); % Normalize pixel values to the range [0,1]
 
@@ -6,10 +7,7 @@ n = 10;
 blurKernel = ones(n, n) / n^2;
 sharpenKernel = [-1 -1 -1; -1 8 -1; -1 -1 -1];
 
-%test
-
-
-blurredImage = convn(inputImage, blurKernel, 'same');
+blurredImage = convn_function(inputImage, blurKernel);
 
 
 

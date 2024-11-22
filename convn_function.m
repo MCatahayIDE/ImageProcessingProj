@@ -1,4 +1,4 @@
-function result = custom_convn(input, kernel)
+function result = convn_function(input, kernel)
     % Custom implementation of the convn function using loops
     % input: The input array (can be 2D or 3D)
     % kernel: The convolution kernel (must be smaller than the input)
