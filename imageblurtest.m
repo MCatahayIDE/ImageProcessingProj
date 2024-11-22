@@ -6,6 +6,7 @@ n = 10;
 blurKernel = ones(n, n) / n^2;
 sharpenKernel = [-1 -1 -1; -1 8 -1; -1 -1 -1];
 
+%test
 
 
 blurredImage = convn(inputImage, blurKernel, 'same');
