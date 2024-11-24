@@ -1,4 +1,4 @@
-function result = conv_2dcolor(input, kernel)
+function result = conv_2dcolor(input, kernel, updateInterval)
     % Custom implementation of the convn function using loops
     % input: The input array (can be 2D or 3D)
     % kernel: The convolution kernel (must be smaller than the input)
@@ -19,16 +19,42 @@ function result = conv_2dcolor(input, kernel)
     pad_size = [floor(kernel_rows/2), floor(kernel_cols/2), 0];
     padded_input = padarray(input, pad_size, 0, 'both');
 
+     % Set up figure for real-time visualization
+    if updateInterval ~= 0
+        figure;
+        hImage = imshow(input, []);
+        title('Convolution in Progress');
+        pause on;
+    end
+
     % Perform convolution using nested loops
-    for d = 1:output_depth
+    if updateInterval ~= 0
         for i = 1:(output_rows - kernel_rows + 1)
             for j = 1:(output_cols - kernel_cols + 1)
+                for d = 1:output_depth
+                    % Extract the region of interest
+                    roi = padded_input(i:i+kernel_rows-1, j:j+kernel_cols-1,  min(d, input_depth));
 
-                % Extract the region of interest
-                roi = padded_input(i:i+kernel_rows-1, j:j+kernel_cols-1,  min(d, input_depth));
+                    % Perform element-wise multiplication and summation
+                    result(i, j, d) = sum(sum(roi .* kernel(:, :, min(d, kernel_depth))));
+                    if mod(i+j, 1000) == 0
+                        set(hImage, 'CData', result);
+                        pause(updateInterval);
+                    end
+                end
+            end
+        end
+    else
+        for i = 1:(output_rows - kernel_rows + 1)
+            for j = 1:(output_cols - kernel_cols + 1)
+                for d = 1:output_depth
+                    % Extract the region of interest
+                    roi = padded_input(i:i+kernel_rows-1, j:j+kernel_cols-1,  min(d, input_depth));
 
-                % Perform element-wise multiplication and summation
-                result(i, j, d) = sum(sum(roi .* kernel(:, :, min(d, kernel_depth))));
+                    % Perform element-wise multiplication and summation
+                    result(i, j, d) = sum(sum(roi .* kernel(:, :, min(d, kernel_depth))));
+
+                end
             end
         end
     end

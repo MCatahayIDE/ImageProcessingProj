@@ -1,5 +1,5 @@
 
-inputImage = imread('cute_dog.png'); 
+inputImage = imread('noisy_image.png'); 
 inputImage = im2double(inputImage); % Normalize pixel values to the range [0,1]
 
 % types of blur kernels
@@ -15,26 +15,29 @@ sigma = 3; % Standard deviation for Gaussian filter
 filter_size = 2 * ceil(3 * sigma) + 1; % Filter size (usually 6*sigma rounded up to the nearest odd integer)
 gaussianBlurKernel = fspecial('gaussian', filter_size, sigma);
 
-blurredImage = convn(inputImage, sharpenKernel);
+
+motionBlurKernel = fspecial("motion",50,45);
+
+% blurredImage = convn(inputImage, motionBlurKernel);
 
 
 % Display the original and blurred images
-figure;
-subplot(2, 1, 1);
-imshow(inputImage);
-title('Original Image');
-
-subplot(2, 1, 2);
-imshow(blurredImage);
-title('Output Image');
+% figure;
+% subplot(2, 1, 1);
+% imshow(inputImage);
+% title('Original Image');
+% 
+% subplot(2, 1, 2);
+% imshow(blurredImage);
+% title('Output Image');
 
 % Save the image if needed
 % imwrite(outputImage, 'output_image.jpg');
 
 
-%% testing custom conv
+%% custom conv
 
-blurredImage = conv_2dcolor(inputImage, sharpenKernel);
+blurredImage = conv_2dcolor(inputImage, gaussianBlurKernel, 0);
 
 
 % Display the original and blurred images
