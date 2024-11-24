@@ -37,7 +37,7 @@ motionBlurKernel = fspecial("motion",50,45);
 
 %% custom conv
 
-blurredImage = conv_2dcolor(inputImage, gaussianBlurKernel, 0);
+blurredImage = conv_2dcolor(inputImage, gaussianBlurKernel, .001);
 
 
 % Display the original and blurred images

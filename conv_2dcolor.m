@@ -19,16 +19,14 @@ function result = conv_2dcolor(input, kernel, updateInterval)
     pad_size = [floor(kernel_rows/2), floor(kernel_cols/2), 0];
     padded_input = padarray(input, pad_size, 0, 'both');
 
-     % Set up figure for real-time visualization
-    if updateInterval ~= 0
-        figure;
-        hImage = imshow(input, []);
-        title('Convolution in Progress');
-        pause on;
-    end
-
     % Perform convolution using nested loops
     if updateInterval ~= 0
+        % Set up figure for real-time visualization
+        figure;
+        hImage = imshow(result, []);
+        title('Convolution in Progress');
+        pause on;
+        
         for i = 1:(output_rows - kernel_rows + 1)
             for j = 1:(output_cols - kernel_cols + 1)
                 for d = 1:output_depth
@@ -37,7 +35,7 @@ function result = conv_2dcolor(input, kernel, updateInterval)
 
                     % Perform element-wise multiplication and summation
                     result(i, j, d) = sum(sum(roi .* kernel(:, :, min(d, kernel_depth))));
-                    if mod(i+j, 1000) == 0
+                    if mod(i+j, 450) == 0
                         set(hImage, 'CData', result);
                         pause(updateInterval);
                     end
