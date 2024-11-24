@@ -16,11 +16,8 @@ sigma = 3; % Standard deviation for Gaussian filter
 filter_size = 2 * ceil(3 * sigma) + 1; % Filter size (usually 6*sigma rounded up to the nearest odd integer)
 gaussianBlurKernel = fspecial('gaussian', filter_size, sigma);
 
-% Motion blur, can choose blur size and angle of blur
-motionBlurKernel = fspecial("motion",50,45);
 
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%%
-%%
+motionBlurKernel = fspecial("motion",50,45);
 
 % blurredImage = convn(inputImage, motionBlurKernel);
 
