@@ -1,5 +1,5 @@
 
-inputImage = imread('noisy_image.png'); 
+inputImage = imread('cute_dog.png'); 
 inputImage = im2double(inputImage); % Normalize pixel values to the range [0,1]
 
 %% ~~~~~~~~~~~~~~Types of blur kernels~~~~~~~~~~~~~~~~~~~~~%%
@@ -41,7 +41,7 @@ motionBlurKernel = fspecial("motion",50,45);
 
 %% custom conv
 
-blurredImage = conv_2dcolor(inputImage, gaussianBlurKernel, .001);
+blurredImage = conv_2dcolor(inputImage, sharpenKernel, 0);
 
 
 % Display the original and blurred images

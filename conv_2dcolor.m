@@ -20,15 +20,29 @@ function result = conv_2dcolor(input, kernel, updateInterval)
     padded_input = padarray(input, pad_size, 0, 'both');
 
     % Perform convolution using nested loops
-    if updateInterval ~= 0
+        
+    if updateInterval == 0
+        for i = 1:(output_rows - kernel_rows)
+            for j = 1:(output_cols - kernel_cols)
+                for d = 1:output_depth
+                    % Extract the region of interest
+                    roi = padded_input(i:i+kernel_rows-1, j:j+kernel_cols-1,  min(d, input_depth));
+
+                    % Perform element-wise multiplication and summation
+                    result(i, j, d) = sum(sum(roi .* kernel(:, :, min(d, kernel_depth))));
+
+                end
+            end
+        end
+    else
         % Set up figure for real-time visualization
         figure;
         hImage = imshow(result, []);
         title('Convolution in Progress');
         pause on;
         
-        for i = 1:(output_rows - kernel_rows + 1)
-            for j = 1:(output_cols - kernel_cols + 1)
+        for i = 1:(output_rows - kernel_rows)
+            for j = 1:(output_cols - kernel_cols)
                 for d = 1:output_depth
                     % Extract the region of interest
                     roi = padded_input(i:i+kernel_rows-1, j:j+kernel_cols-1,  min(d, input_depth));
@@ -42,17 +56,5 @@ function result = conv_2dcolor(input, kernel, updateInterval)
                 end
             end
         end
-    else
-        for i = 1:(output_rows - kernel_rows + 1)
-            for j = 1:(output_cols - kernel_cols + 1)
-                for d = 1:output_depth
-                    % Extract the region of interest
-                    roi = padded_input(i:i+kernel_rows-1, j:j+kernel_cols-1,  min(d, input_depth));
-
-                    % Perform element-wise multiplication and summation
-                    result(i, j, d) = sum(sum(roi .* kernel(:, :, min(d, kernel_depth))));
-
-                end
-            end
-        end
     end
+end
