@@ -2,7 +2,7 @@
 inputImage = imread('cute_dog.png'); 
 inputImage = im2double(inputImage); % Normalize pixel values to the range [0,1]
 
-%% ~~~~~~~~~~~~~~Types of blur kernels~~~~~~~~~~~~~~~~~~~~~%%
+%% ~~~~~~~~~~~~~~~~~~~~~Types of blur kernels~~~~~~~~~~~~~~~~~~~~~%%
 
 % mean blur, averages n x n area of pixels
 n = 3;
@@ -19,29 +19,9 @@ gaussianBlurKernel = fspecial('gaussian', filter_size, sigma);
 % Motion blur, can choose blur size and angle of blur
 motionBlurKernel = fspecial("motion",50,45);
 
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%%
-%%
+%% ~~~~~~~~~~~~~~~~~~~~~Custom conv~~~~~~~~~~~~~~~~~~~~~%%
 
-% blurredImage = convn(inputImage, motionBlurKernel);
-
-
-% Display the original and blurred images
-% figure;
-% subplot(2, 1, 1);
-% imshow(inputImage);
-% title('Original Image');
-% 
-% subplot(2, 1, 2);
-% imshow(blurredImage);
-% title('Output Image');
-
-% Save the image if needed
-% imwrite(outputImage, 'output_image.jpg');
-
-
-%% custom conv
-
-blurredImage = conv_2dcolor(inputImage, sharpenKernel, 0);
+outputImage = conv_2dcolor(inputImage, sharpenKernel, 0);
 
 
 % Display the original and blurred images
@@ -52,8 +32,7 @@ imshow(inputImage);
 title('Original Image');
 
 subplot(2, 1, 2);
-imshow(blurredImage);
+imshow(outputImage);
 title('Output Image');
 
-% Save the image if needed
-% imwrite(outputImage, 'output_image.jpg');
+imwrite(outputImage, 'output_image.jpg'); % to save image
